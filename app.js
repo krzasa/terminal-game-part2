@@ -24,13 +24,60 @@ const container = document.querySelector('.gameboard')
  const textMaker2 = midRow.toString() 
  const textMaker3 = bottomRow.toString() 
  let gameDirection = "This is test text "
-/**---------------------------------FUNCTIONS------------------------------------------- */
 
+ let inputVal = ""
+ const inputCount = 0
+/**---------------------------------FUNCTIONS------------------------------------------- */
+const userCall = (name) => {  // creating a function for asking the name of the players 
+    
+   
+
+    player1.name =  name // create variable for player 1 from user prompt
+    gameDirection = `Player 1's name is ${player1.name}`;
+
+    player2.name = prompt('What is your name Player 2? ');  // create variable for player 2 prompt 
+    console.log(`Player 2's name is ${player2.name}`);
+
+}
+
+const inputCheck = (input) => {
+    if (inputVal.length > 1 && inputCount < 1) {
+        player1.name = input
+        gameDirection = `Player 1's name is ${player1.name}`;
+        inputCount += 1
+    }else if ( inputVal.length > 1 && inputCount < 2){
+        player2.name = input
+        gameDirection = `Player 2's name is ${player2.name}`;
+        inputCount += 1
+    }
+    if (inputVal.length < 2 && inputCount < 3) {
+        if (input ==="X"|| input ==="x"){
+        player1.symbol = "X"
+        inputCount += 1
+        } else if (input ==="O"|| input ==="o"){
+        player1.symbol = "O"
+        inputCount += 1
+        }
+    } else if (inputVal.length < 2 && inputCount < 4){
+        if (player1.symbol==="X"){
+            player2.symbol = "O"
+
+        } else if (player1.symbol === "O") {
+            player2.symbol = "X"
+        }
+
+    }
+
+
+
+}
 
 /**------------------------------------------------------Event Listeners/calls-------------------------------------- */
 const gameboardElement = document.querySelector(".gameboard");
 const gameButtonElement = document.querySelector(".gameButton")
 const direcButtonElement = document.querySelector('.directionsButton')
+const submitButton = document.querySelector(".submit")
+const choiceInput = document.querySelector('.textInput')
 
 gameButtonElement.addEventListener('click', () =>{  
     while(gameboardElement.firstChild) { 
@@ -80,16 +127,13 @@ direcButtonElement.addEventListener('click', () =>{
     
 })
 
-direcButtonElement.addEventListener('click', () =>{  
-    while(gameboardElement.firstChild) { 
-        gameboardElement.removeChild(gameboardElement.firstChild); 
-    } 
-    const para = document.createElement("p");
-   
-    // gameboardElement.removeChild()
-    para.textContent = 'The object of tic tac toe is to get three in a row vertically horizontally or diagonally. You will face your computer and play turn for turn. Each player will be asked for their desired symbol. First player to get three in a row wins! Rules are simple, the fun is the strategy!'
+submitButton.addEventListener('click', () =>{  
+    if(choiceInput.value != ""){
+        inputCheck(choiceInput.value)
+    }
     
-    gameboardElement.appendChild(para);
+   
+    
     
 })
 
