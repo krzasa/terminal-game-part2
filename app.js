@@ -24,14 +24,22 @@ const container = document.querySelector('.gameboard')
  const textMaker2 = midRow.toString() 
  const textMaker3 = bottomRow.toString() 
 /**---------------------------------FUNCTIONS------------------------------------------- */
-
+// function clearBox(elementID) { 
+//     const div = document.getElementById(elementID); 
+     
+    
+// }
 
 /**------------------------------------------------------Event Listeners/calls-------------------------------------- */
-const gameboardElement = document.querySelector("div");
+const gameboardElement = document.querySelector(".gameboard");
 const gameButtonElement = document.querySelector(".gameButton")
 const direcButtonElement = document.querySelector('.directionsButton')
 
 gameButtonElement.addEventListener('click', () =>{  
+    while(gameboardElement.firstChild) { 
+        gameboardElement.removeChild(gameboardElement.firstChild); 
+    }
+    
     
     const para = document.createElement("h1");
     const para2 = document.createElement("h1");
@@ -46,17 +54,21 @@ gameButtonElement.addEventListener('click', () =>{
     gameboardElement.appendChild(para);
     gameboardElement.appendChild(para2);
     gameboardElement.appendChild(para3);
+    
 })
 
 direcButtonElement.addEventListener('click', () =>{  
-    
+    while(gameboardElement.firstChild) { 
+        gameboardElement.removeChild(gameboardElement.firstChild); 
+    } 
     const para = document.createElement("p");
-
+   
     // gameboardElement.removeChild()
     para.textContent = 'The object of tic tac toe is to get three in a row vertically horizontally or diagonally. You will face your computer and play turn for turn. Each player will be asked for their desired symbol. First player to get three in a row wins! Rules are simple, the fun is the strategy!'
     
     gameboardElement.appendChild(para);
     
 })
+
 
 
