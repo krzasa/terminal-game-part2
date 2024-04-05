@@ -23,13 +23,9 @@ const container = document.querySelector('.gameboard')
  const textMaker1 = topRow.toString() 
  const textMaker2 = midRow.toString() 
  const textMaker3 = bottomRow.toString() 
- const gameDirection = "This is test text "
+ let gameDirection = "This is test text "
 /**---------------------------------FUNCTIONS------------------------------------------- */
-// function clearBox(elementID) { 
-//     const div = document.getElementById(elementID); 
-     
-    
-// }
+
 
 /**------------------------------------------------------Event Listeners/calls-------------------------------------- */
 const gameboardElement = document.querySelector(".gameboard");
@@ -38,7 +34,7 @@ const direcButtonElement = document.querySelector('.directionsButton')
 
 gameButtonElement.addEventListener('click', () =>{  
     while(gameboardElement.firstChild) { 
-        gameboardElement.removeChild(gameboardElement.firstChild); 
+        gameboardElement.removeChild(gameboardElement.firstChild);  //This loop clears the gameboard before starting
     }
     
     
@@ -46,7 +42,13 @@ gameButtonElement.addEventListener('click', () =>{
     const para2 = document.createElement("h1");
     const para3 = document.createElement("h1");
     const para4 = document.createElement ('h2')
-    // const node = document.createTextNode("This is new.");
+    gameDirection ="Please enter the name of Player 1 in the input box"
+    if (player1.name === "") {
+
+    }
+
+
+
     para.textContent = textMaker1 
     para2.textContent = textMaker2
     para3.textContent = textMaker3 
@@ -58,6 +60,7 @@ gameButtonElement.addEventListener('click', () =>{
     gameboardElement.appendChild(para2);
     gameboardElement.appendChild(para3);
     gameboardElement.appendChild(para4);
+
 
     
 })
@@ -77,5 +80,16 @@ direcButtonElement.addEventListener('click', () =>{
     
 })
 
-
+direcButtonElement.addEventListener('click', () =>{  
+    while(gameboardElement.firstChild) { 
+        gameboardElement.removeChild(gameboardElement.firstChild); 
+    } 
+    const para = document.createElement("p");
+   
+    // gameboardElement.removeChild()
+    para.textContent = 'The object of tic tac toe is to get three in a row vertically horizontally or diagonally. You will face your computer and play turn for turn. Each player will be asked for their desired symbol. First player to get three in a row wins! Rules are simple, the fun is the strategy!'
+    
+    gameboardElement.appendChild(para);
+    
+})
 
