@@ -23,6 +23,7 @@ const container = document.querySelector('.gameboard')
  const textMaker1 = topRow.toString() 
  const textMaker2 = midRow.toString() 
  const textMaker3 = bottomRow.toString() 
+ const gameDirection = "This is test text "
 /**---------------------------------FUNCTIONS------------------------------------------- */
 // function clearBox(elementID) { 
 //     const div = document.getElementById(elementID); 
@@ -44,18 +45,24 @@ gameButtonElement.addEventListener('click', () =>{
     const para = document.createElement("h1");
     const para2 = document.createElement("h1");
     const para3 = document.createElement("h1");
+    const para4 = document.createElement ('h2')
     // const node = document.createTextNode("This is new.");
     para.textContent = textMaker1 
     para2.textContent = textMaker2
     para3.textContent = textMaker3 
+    para4.textContent = gameDirection
     para.style.wordSpacing = "10px"
     para2.style.wordSpacing = "10px"
     para3.style.wordSpacing = "10px"
     gameboardElement.appendChild(para);
     gameboardElement.appendChild(para2);
     gameboardElement.appendChild(para3);
+    gameboardElement.appendChild(para4);
+
     
 })
+
+
 
 direcButtonElement.addEventListener('click', () =>{  
     while(gameboardElement.firstChild) { 
