@@ -33,6 +33,7 @@ const direcButtonElement = document.querySelector('.directionsButton')
 const submitButton = document.querySelector(".submit")
 const choiceInput = document.querySelector('.textInput')
  let directionElement = document.querySelector(".directions")
+const battleElement = document.querySelector(".battle")
 /**---------------------------------FUNCTIONS------------------------------------------- */
 // const userCall = (name) => {  // creating a function for asking the name of the players 
     
@@ -76,13 +77,19 @@ const inputCheck = (input) => {
         else if (input ==="O"|| input ==="o"){
         player1.symbol = "O"
         player2.symbol = "X"
-        gameDirection = `${player1.name} 's symbol is ${player1.symbol} , and ${player2.name} is ${player2.symbol}`
+        gameDirection = `${player1.name} 's symbol is ${player1.symbol} , and ${player2.name} is ${player2.symbol}, once you're ready click the "Start battle button"`
         directionElement.textContent = gameDirection
         inputCount += 1
         }
        
     } 
 }
+
+const ticBattle = () {
+
+    
+}
+
 
 /**------------------------------------------------------Event Listeners/calls-------------------------------------- */
 
@@ -148,3 +155,10 @@ submitButton.addEventListener('click', () =>{
     
 })
 
+battleElement.addEventListener('click', () =>{ 
+    
+    ticBattle()
+    
+    
+    
+})
