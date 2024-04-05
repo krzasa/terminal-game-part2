@@ -19,7 +19,8 @@ const midRow = [4, 5, 6]
 const bottomRow = [7, 8, 9]
 
 const selectedNumbers = []
-
+const container = document.querySelector('.gameboard')
+const textMaker = topRow.toString() + "\n" + midRow.toString() + "\n" + bottomRow.toString() 
 /**---------------------------------FUNCTIONS------------------------------------------- */
 
 const userCall = () => {  // creating a function for asking the name of the players 
@@ -120,6 +121,7 @@ const showGameBoard = () => {
     console.log(...topRow); 
     console.log(...midRow);
     console.log(...bottomRow);
+    
 }
 
 // This is the feature for picking the square
@@ -200,3 +202,5 @@ showGameBoard()
 randomizer()
 
 playGame()
+/**------------------------------------------------------Event Listeners/calls-------------------------------------- */
+container.appendChild(textMaker)
