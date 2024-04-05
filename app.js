@@ -11,11 +11,17 @@ let player2 = {
 }
 
 let turn = 0;
+let choice = 0
 const digits = ['1','2','3','4','5','6','7','8','9']
 
 const topRow = [1, 2, 3]
 const midRow = [4, 5, 6]
 const bottomRow = [7, 8, 9]
+const xsOrOs = ['X', 'x', 'O', 'o']
+const selectedNumbers = []
+
+
+
  
 
 const container = document.querySelector('.gameboard')
@@ -33,7 +39,7 @@ const direcButtonElement = document.querySelector('.directionsButton')
 const submitButton = document.querySelector(".submit")
 const choiceInput = document.querySelector('.textInput')
  let directionElement = document.querySelector(".directions")
-const battleElement = document.querySelector(".battle")
+const battleButton = document.querySelector(".battle")
 /**---------------------------------FUNCTIONS------------------------------------------- */
 // const userCall = (name) => {  // creating a function for asking the name of the players 
     
@@ -70,7 +76,7 @@ const inputCheck = (input) => {
         player2.symbol = "O"
         
         // console.log(player1.symbol);
-        gameDirection = `${player1.name} 's symbol is ${player1.symbol} , and ${player2.name} is ${player2.symbol}`
+        gameDirection = `${player1.name} 's symbol is ${player1.symbol} , and ${player2.name} is ${player2.symbol}, once you're ready click the "Start battle button"`
         directionElement.textContent = gameDirection
         inputCount += 1
         } 
@@ -83,10 +89,115 @@ const inputCheck = (input) => {
         }
        
     } 
+ return
 }
 
-const ticBattle = () {
+const ticBattle = () => {
+    gameDirection = `${player1.name} please pick your first spot on the board`
+    directionElement.textContent = gameDirection
+    console.log("This is working ");
 
+    choice = choiceInput.value
+    while (!digits.includes(choice) || selectedNumbers.includes(choice)){
+            
+        choice = 0
+        gameDirection =`${player1.name} (${player1.symbol}), please pick an unused square by entering a number from 1 to 9: `
+        directionElement.textContent = gameDirection
+
+
+    }
+
+    if (turn === 0){
+        
+        
+        
+        if (choice >= 1 && choice <=3){
+            topRow[choice - 1] = player1.symbol;
+        }
+        if (choice >= 4 && choice <= 6){
+            midRow[choice - 4] = player1.symbol;
+        }
+        if (choice >= 7 && choice <= 9){
+            bottomRow[choice - 7] = player1.symbol;
+        }
+        turn = 1;
+        selectedNumbers.push(choice)
+        
+    } else if (turn === 1){
+        
+        let choice = 0;
+        
+        while (!digits.includes(choice) || selectedNumbers.includes(choice)){
+            
+            if (choice === 'exit') {
+               
+                process.exit()
+            }
+            choice = prompt(`${player2.name} (${player2.symbol}), please pick an unused square by entering a number from 1 to 9: `)
+        }
+        
+        if (choice >= 1 && choice <=3){
+            topRow[choice - 1] = player2.symbol;
+        }
+        if (choice >= 4 && choice <= 6){
+            midRow[choice - 4] = player2.symbol;
+        }
+        if (choice >= 7 && choice <= 9){
+            bottomRow[choice - 7] = player2.symbol;
+        }
+       
+        turn = 0;
+        selectedNumbers.push(choice)
+        
+    }
+
+
+
+
+
+
+
+    if (
+        (topRow[0]=== player1.symbol && topRow[1]=== player1.symbol && topRow[2]=== player1.symbol)  // check for 3 in a row for first row
+        ||
+        (midRow[0]=== player1.symbol && midRow[1]=== player1.symbol && midRow[2]=== player1.symbol)  //  check for 3 in a row for 2nd row
+        ||
+        (bottomRow[0]=== player1.symbol && bottomRow[1]=== player1.symbol && bottomRow[2]=== player1.symbol)  // check for 3 in a row for 3rd row
+        || 
+        (topRow[0]=== player1.symbol && midRow[0]=== player1.symbol && bottomRow[0]=== player1.symbol)//check left column
+        ||
+        (topRow[1]=== player1.symbol && midRow[1]=== player1.symbol && bottomRow[1]=== player1.symbol)//check middle column
+        ||
+        (topRow[2]=== player1.symbol && midRow[2]=== player1.symbol && bottomRow[2]=== player1.symbol)//check right column
+        ||
+        (bottomRow[0]=== player1.symbol && midRow[1]=== player1.symbol && topRow[2]=== player1.symbol)// check diag left to right from the bottom
+        ||
+        (topRow[0]=== player1.symbol && midRow[1]=== player1.symbol && bottomRow[2]=== player1.symbol)//check diag left to right from the top
+        ) { 
+            gameDirection =`${player1.name} (${player1.symbol}) is the winner. `; 
+            choice = 0
+            directionElement.textContent = gameDirection
+    } else if (
+        (topRow[0]=== player2.symbol && topRow[1]=== player2.symbol && topRow[2]=== player2.symbol)  // check for 3 in a row for first row
+        ||
+        (midRow[0]=== player2.symbol && midRow[1]=== player2.symbol && midRow[2]=== player2.symbol)  //  check for 3 in a row for 2nd row
+        ||
+        (bottomRow[0]=== player2.symbol && bottomRow[1]=== player2.symbol && bottomRow[2]=== player2.symbol)  // check for 3 in a row for 3rd row
+        || 
+        (topRow[0]=== player2.symbol && midRow[0]=== player2.symbol && bottomRow[0]=== player2.symbol)//check left column
+        ||
+        (topRow[1]=== player2.symbol && midRow[1]=== player2.symbol && bottomRow[1]=== player2.symbol)//check middle column
+        ||
+        (topRow[2]=== player2.symbol && midRow[2]=== player2.symbol && bottomRow[2]=== player2.symbol)//check right column
+        ||
+        (bottomRow[0]=== player2.symbol && midRow[1]=== player2.symbol && topRow[2]=== player2.symbol)// check diag left to right from the bottom
+        ||
+        (topRow[0]=== player2.symbol && midRow[1]=== player2.symbol && bottomRow[2]=== player2.symbol)//check diag left to right from the top
+        ) {
+            gameDirection =`${player2.name} (${player2.symbol}) is the winner. `; 
+            choice = 0
+            directionElement.textContent = gameDirection
+    }
     
 }
 
@@ -97,8 +208,12 @@ const ticBattle = () {
 gameButtonElement.addEventListener('click', () =>{  
     while(gameboardElement.firstChild) { 
         gameboardElement.removeChild(gameboardElement.firstChild);  //This loop clears the gameboard before starting
+        
     }
-    
+    while(directionElement.firstChild) { 
+        directionElement.removeChild(directionElement.firstChild);  //This loop clears the gameboard before starting
+        
+    }
     
     const para = document.createElement("h1");
     const para2 = document.createElement("h1");
@@ -133,15 +248,22 @@ gameButtonElement.addEventListener('click', () =>{
 direcButtonElement.addEventListener('click', () =>{  
     while(gameboardElement.firstChild) { 
         gameboardElement.removeChild(gameboardElement.firstChild); 
+
     } 
+    while(directionElement.firstChild) { 
+        directionElement.removeChild(directionElement.firstChild);  //This loop clears the gameboard before starting
+        
+    }
     const para = document.createElement("p");
    
     // gameboardElement.removeChild()
     para.textContent = 'The object of tic tac toe is to get three in a row vertically horizontally or diagonally. You will face your computer and play turn for turn. Each player will be asked for their desired symbol. First player to get three in a row wins! Rules are simple, the fun is the strategy!'
     
-    gameboardElement.appendChild(para);
+    directionElement.appendChild(para);
     
 })
+
+
 
 submitButton.addEventListener('click', () =>{ 
     // console.log(choiceInput.value); 
@@ -155,9 +277,9 @@ submitButton.addEventListener('click', () =>{
     
 })
 
-battleElement.addEventListener('click', () =>{ 
-    
-    ticBattle()
+battleButton.addEventListener('click', () =>{ 
+    console.log("The click works ");
+    //ticBattle()
     
     
     
