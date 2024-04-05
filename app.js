@@ -1,4 +1,6 @@
-const prompt = require('prompt-sync')();
+
+
+prompt = require('prompt-sync')();
 
 /**------------------------------------CONSTANTS---------------------------------------- */
 
@@ -20,7 +22,9 @@ const bottomRow = [7, 8, 9]
 
 const selectedNumbers = []
 const container = document.querySelector('.gameboard')
-const textMaker = topRow.toString() + "\n" + midRow.toString() + "\n" + bottomRow.toString() 
+
+ const textMaker = "Hi, this is a test "
+ //topRow.toString() + "\n" + midRow.toString() + "\n" + bottomRow.toString() 
 /**---------------------------------FUNCTIONS------------------------------------------- */
 
 const userCall = () => {  // creating a function for asking the name of the players 
@@ -203,4 +207,15 @@ randomizer()
 
 playGame()
 /**------------------------------------------------------Event Listeners/calls-------------------------------------- */
-container.appendChild(textMaker)
+const gameboardElement = document.querySelector("div");
+const gameButtonElement = document.querySelector(".gameButton")
+
+gameButtonElement.addEventListener('click', () =>{  
+    
+    const para = document.createElement("p");
+    const node = document.createTextNode("This is new.");
+    para.appendChild(node);
+    
+    gameboardElement.appendChild(para);
+    
+})
