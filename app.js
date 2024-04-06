@@ -11,8 +11,9 @@ let player2 = {
 }
 
 let turn = 0;
-let choice = 0
+
 const digits = ['1','2','3','4','5','6','7','8','9']
+let state = true
 
 const topRow = [1, 2, 3]
 const midRow = [4, 5, 6]
@@ -31,15 +32,20 @@ const container = document.querySelector('.gameboard')
  const textMaker3 = bottomRow.toString() 
  let gameDirection = "This is test text "
 
+
  let inputVal = ""
  let inputCount = 0
- const gameboardElement = document.querySelector(".gameboard");
+ let roundcou
+ let gameboardElement1 = document.querySelector(".gameboard1");
+ let gameboardElement2 = document.querySelector(".gameboard2");
+ let gameboardElement3 = document.querySelector(".gameboard3");
 const gameButtonElement = document.querySelector(".gameButton")
 const direcButtonElement = document.querySelector('.directionsButton')
 const submitButton = document.querySelector(".submit")
 const choiceInput = document.querySelector('.textInput')
  let directionElement = document.querySelector(".directions")
 const battleButton = document.querySelector(".battle")
+const continueButton = document.querySelector(".continue")
 /**---------------------------------FUNCTIONS------------------------------------------- */
 // const userCall = (name) => {  // creating a function for asking the name of the players 
     
@@ -87,118 +93,143 @@ const inputCheck = (input) => {
         directionElement.textContent = gameDirection
         inputCount += 1
         }
-       
+         // changes the state to true so the second part of submit event listener can start
+        //console.log(state);//
     } 
- return
+    
 }
 
 const ticBattle = () => {
-    gameDirection = `${player1.name} please pick your first spot on the board`
-    directionElement.textContent = gameDirection
-    console.log("This is working ");
-
-    choice = choiceInput.value
-    while (!digits.includes(choice) || selectedNumbers.includes(choice)){
-            
-        choice = 0
-        gameDirection =`${player1.name} (${player1.symbol}), please pick an unused square by entering a number from 1 to 9: `
-        directionElement.textContent = gameDirection
-
-
-    }
-
-    if (turn === 0){
-        
-        
-        
-        if (choice >= 1 && choice <=3){
-            topRow[choice - 1] = player1.symbol;
-        }
-        if (choice >= 4 && choice <= 6){
-            midRow[choice - 4] = player1.symbol;
-        }
-        if (choice >= 7 && choice <= 9){
-            bottomRow[choice - 7] = player1.symbol;
-        }
-        turn = 1;
-        selectedNumbers.push(choice)
-        
-    } else if (turn === 1){
-        
-        let choice = 0;
-        
-        while (!digits.includes(choice) || selectedNumbers.includes(choice)){
-            
-            if (choice === 'exit') {
-               
-                process.exit()
-            }
-            choice = prompt(`${player2.name} (${player2.symbol}), please pick an unused square by entering a number from 1 to 9: `)
-        }
-        
-        if (choice >= 1 && choice <=3){
-            topRow[choice - 1] = player2.symbol;
-        }
-        if (choice >= 4 && choice <= 6){
-            midRow[choice - 4] = player2.symbol;
-        }
-        if (choice >= 7 && choice <= 9){
-            bottomRow[choice - 7] = player2.symbol;
-        }
-       
-        turn = 0;
-        selectedNumbers.push(choice)
-        
-    }
-
-
-
-
-
-
-
-    if (
-        (topRow[0]=== player1.symbol && topRow[1]=== player1.symbol && topRow[2]=== player1.symbol)  // check for 3 in a row for first row
-        ||
-        (midRow[0]=== player1.symbol && midRow[1]=== player1.symbol && midRow[2]=== player1.symbol)  //  check for 3 in a row for 2nd row
-        ||
-        (bottomRow[0]=== player1.symbol && bottomRow[1]=== player1.symbol && bottomRow[2]=== player1.symbol)  // check for 3 in a row for 3rd row
-        || 
-        (topRow[0]=== player1.symbol && midRow[0]=== player1.symbol && bottomRow[0]=== player1.symbol)//check left column
-        ||
-        (topRow[1]=== player1.symbol && midRow[1]=== player1.symbol && bottomRow[1]=== player1.symbol)//check middle column
-        ||
-        (topRow[2]=== player1.symbol && midRow[2]=== player1.symbol && bottomRow[2]=== player1.symbol)//check right column
-        ||
-        (bottomRow[0]=== player1.symbol && midRow[1]=== player1.symbol && topRow[2]=== player1.symbol)// check diag left to right from the bottom
-        ||
-        (topRow[0]=== player1.symbol && midRow[1]=== player1.symbol && bottomRow[2]=== player1.symbol)//check diag left to right from the top
-        ) { 
-            gameDirection =`${player1.name} (${player1.symbol}) is the winner. `; 
-            choice = 0
-            directionElement.textContent = gameDirection
-    } else if (
-        (topRow[0]=== player2.symbol && topRow[1]=== player2.symbol && topRow[2]=== player2.symbol)  // check for 3 in a row for first row
-        ||
-        (midRow[0]=== player2.symbol && midRow[1]=== player2.symbol && midRow[2]=== player2.symbol)  //  check for 3 in a row for 2nd row
-        ||
-        (bottomRow[0]=== player2.symbol && bottomRow[1]=== player2.symbol && bottomRow[2]=== player2.symbol)  // check for 3 in a row for 3rd row
-        || 
-        (topRow[0]=== player2.symbol && midRow[0]=== player2.symbol && bottomRow[0]=== player2.symbol)//check left column
-        ||
-        (topRow[1]=== player2.symbol && midRow[1]=== player2.symbol && bottomRow[1]=== player2.symbol)//check middle column
-        ||
-        (topRow[2]=== player2.symbol && midRow[2]=== player2.symbol && bottomRow[2]=== player2.symbol)//check right column
-        ||
-        (bottomRow[0]=== player2.symbol && midRow[1]=== player2.symbol && topRow[2]=== player2.symbol)// check diag left to right from the bottom
-        ||
-        (topRow[0]=== player2.symbol && midRow[1]=== player2.symbol && bottomRow[2]=== player2.symbol)//check diag left to right from the top
-        ) {
-            gameDirection =`${player2.name} (${player2.symbol}) is the winner. `; 
-            choice = 0
-            directionElement.textContent = gameDirection
-    }
     
+    // console.log(state);
+    // if (state === null){
+        console.log("This is working ");
+        gameDirection = `${player1.name} has started the game, please pick your first spot on the board, after submitting your spot, press "Continue" `
+        directionElement.textContent = gameDirection
+        console.log(state);
+        return
+        
+        
+         
+//     } else if (state != null){
+//         if (state = false )
+//         {
+//         console.log("THis gets skipped");
+//         gameDirection =`${player2.name} please pick your  spot on the board`
+//         directionElement.textContent = gameDirection
+//         state = true
+      
+//         } 
+    
+//         if (state === true ){
+//         console.log(state);
+//         console.log("This is not working ");
+//         gameDirection =`${player1.name} please pick your  spot on the board`
+//         directionElement.textContent = gameDirection
+//         state= false
+
+//         } 
+// }
+
+   
+    
+    
+}
+const tableChange = (input) => {
+    console.log('BOW');
+    console.log(state);
+
+    gameDirection =`${player2.name} please pick your  spot on the board`
+        directionElement.textContent = gameDirection
+    if (state === true) {
+        if (selectedNumbers.includes(input)) {
+            gameDirection = `${player1.name} please pick a number that was not used before`
+            directionElement.textContent = gameDirection
+            
+        } else {
+            let choice = parseInt(input)
+            if (choice >= 1 && choice <=3){
+                topRow[choice - 1] = player1.symbol;
+                selectedNumbers.push(input)
+                let para = document.createElement("h1");
+                para = topRow.toString()
+                gameboardElement1.textContent = para
+                console.log(input);
+                state = false
+                gameDirection = `${player2.name} please pick a number `
+                
+            }
+            if (choice >= 4 && choice <= 6){
+                midRow[choice - 4] = player1.symbol;
+                selectedNumbers.push(input)
+                let para3 = document.createElement("h1");
+                para2 = midRow.toString()
+                gameboardElement2.textContent = para2
+                console.log(input);
+                state = false
+                gameDirection = `${player2.name} please pick a number `
+            }
+            if (choice >= 7 && choice <= 9){
+                bottomRow[choice - 7] = player1.symbol;
+                selectedNumbers.push(input)
+                let para3 = document.createElement("h1");
+                para3 = bottomRow.toString()
+                gameboardElement3.textContent = para3
+                console.log(input);
+                state = false
+                gameDirection = `${player2.name} please pick a number `
+            }
+            
+        }
+        
+    } 
+     if (state === false) {
+        if (selectedNumbers.includes(input)) {
+            gameDirection = `${player2.name} please pick a number that was not used before`
+            directionElement.textContent = gameDirection
+            
+        } else {
+            console.log("bow bow");
+            let choice = parseInt(input)
+            if (choice >= 1 && choice <=3){
+                topRow[choice - 1] = player2.symbol;
+                selectedNumbers.push(input)
+                let para = document.createElement("h1");
+                para = topRow.toString()
+                gameboardElement1.textContent = para
+                console.log(input);
+               state = true
+               gameDirection = `${player1.name} please pick a number `
+                directionElement.textContent = gameDirection
+                
+            }
+            if (choice >= 4 && choice <= 6){
+                midRow[choice - 4] = player2.symbol;
+                selectedNumbers.push(input)
+                let para3 = document.createElement("h1");
+                para2 = midRow.toString()
+                gameboardElement2.textContent = para2
+                console.log(input);
+               state = true
+               gameDirection = `${player1.name} please pick a number `
+                directionElement.textContent = gameDirection
+            }
+            if (choice >= 7 && choice <= 9){
+                bottomRow[choice - 7] = player2.symbol;
+                selectedNumbers.push(input)
+                let para3 = document.createElement("h1");
+                para3 = bottomRow.toString()
+                gameboardElement3.textContent = para3
+                console.log(input);
+                state = true
+                gameDirection = `${player1.name} please pick a number `
+                directionElement.textContent = gameDirection
+            }
+        }
+        
+    }
+
+
 }
 
 
@@ -206,18 +237,19 @@ const ticBattle = () => {
 
 
 gameButtonElement.addEventListener('click', () =>{  
-    while(gameboardElement.firstChild) { 
-        gameboardElement.removeChild(gameboardElement.firstChild);  //This loop clears the gameboard before starting
-        
+    while(gameboardElement1.firstChild &&  gameboardElement2.firstChild && gameboardElement3.firstChild) { 
+        gameboardElement1.removeChild(gameboardElement1.firstChild);  //This loop clears the gameboard before starting
+        gameboardElement2.removeChild(gameboardElement2.firstChild);  //This loop clears the gameboard before starting
+        gameboardElement3.removeChild(gameboardElement3.firstChild);  //This loop clears the gameboard before starting
     }
     while(directionElement.firstChild) { 
         directionElement.removeChild(directionElement.firstChild);  //This loop clears the gameboard before starting
         
     }
     
-    const para = document.createElement("h1");
-    const para2 = document.createElement("h1");
-    const para3 = document.createElement("h1");
+     const para = document.createElement("h1");
+     const para2 = document.createElement("h1");
+     const para3 = document.createElement("h1");
     const para4 = document.createElement ('h2')
     gameDirection ="Please enter the name of Player 1 in the input box, then player 2's name after submitting"
     if (player1.name === "") {
@@ -234,9 +266,9 @@ gameButtonElement.addEventListener('click', () =>{
     para.style.wordSpacing = "10px"
     para2.style.wordSpacing = "10px"
     para3.style.wordSpacing = "10px"
-    gameboardElement.appendChild(para);
-    gameboardElement.appendChild(para2);
-    gameboardElement.appendChild(para3);
+    gameboardElement1.appendChild(para);
+    gameboardElement2.appendChild(para2);
+    gameboardElement3.appendChild(para3);
     directionElement.appendChild(para4);
 
 
@@ -246,10 +278,11 @@ gameButtonElement.addEventListener('click', () =>{
 
 
 direcButtonElement.addEventListener('click', () =>{  
-    while(gameboardElement.firstChild) { 
-        gameboardElement.removeChild(gameboardElement.firstChild); 
-
-    } 
+    while(gameboardElement1.firstChild &&  gameboardElement2.firstChild && gameboardElement3.firstChild) { 
+        gameboardElement1.removeChild(gameboardElement1.firstChild);  //This loop clears the gameboard before starting
+        gameboardElement2.removeChild(gameboardElement2.firstChild);  //This loop clears the gameboard before starting
+        gameboardElement3.removeChild(gameboardElement3.firstChild);  //This loop clears the gameboard before starting
+    }
     while(directionElement.firstChild) { 
         directionElement.removeChild(directionElement.firstChild);  //This loop clears the gameboard before starting
         
@@ -267,20 +300,31 @@ direcButtonElement.addEventListener('click', () =>{
 
 submitButton.addEventListener('click', () =>{ 
     // console.log(choiceInput.value); 
-    if(choiceInput.value != ""){
+    
+    if(choiceInput.value != "" ){
         inputCheck(choiceInput.value)
-        // console.log("inputCheck(fire)");
+        console.log("inputCheck(fire)");
+    } 
+    
+    if (digits.includes(choiceInput.value)) {
+        tableChange(choiceInput.value)
+        // console.log(choiceInput.value);
     }
-    
-    
     
     
 })
 
 battleButton.addEventListener('click', () =>{ 
-    console.log("The click works ");
-    //ticBattle()
+    // when battle button is pressed run ticBattle AND tableChange
+    // console.log("The click works ");
+    ticBattle() 
+   
     
+})     
     
+continueButton.addEventListener('click', () =>{ 
     
-})
+    // console.log("The click works ");
+    tableChange()
+    
+})    
