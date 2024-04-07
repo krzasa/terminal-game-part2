@@ -20,6 +20,7 @@ const midRow = [4, 5, 6]
 const bottomRow = [7, 8, 9]
 const xsOrOs = ['X', 'x', 'O', 'o']
 const selectedNumbers = []
+let playerTurn= ""
 
 
 
@@ -104,9 +105,10 @@ const ticBattle = () => {
     // console.log(state);
     // if (state === null){
         console.log("This is working ");
-        gameDirection = `${player1.name} has started the game, please pick your first spot on the board, after submitting your spot, press "Continue" `
+        gameDirection = `${player1.name} has started the game, please pick your first spot on the board `
         directionElement.textContent = gameDirection
         console.log(state);
+        playerTurn = "two"
         return
         
         
@@ -136,15 +138,61 @@ const ticBattle = () => {
     
 }
 const tableChange = (input) => {
-    console.log('BOW');
+    console.log('BOW working');
     console.log(state);
-
-    gameDirection =`${player2.name} please pick your  spot on the board`
+    if (playerTurn === "") {
+        
+        gameDirection =`${player1.name} please pick your  spot on the board`
         directionElement.textContent = gameDirection
-    if (state === true) {
+        playerTurn = "one"
+        let choice = parseInt(input)
+            if (choice >= 1 && choice <=3){
+                topRow[choice - 1] = player1.symbol;
+                selectedNumbers.push(input)
+                let para = document.createElement("h1");
+                para = topRow.toString()
+                gameboardElement1.textContent = para
+                console.log(input);
+               state = true
+               playerTurn = "two"
+               gameDirection = `${player2.name} please pick a number `
+                directionElement.textContent = gameDirection
+                
+            }
+            if (choice >= 4 && choice <= 6){
+                midRow[choice - 4] = player1.symbol;
+                selectedNumbers.push(input)
+                let para3 = document.createElement("h1");
+                para2 = midRow.toString()
+                gameboardElement2.textContent = para2
+                console.log(input);
+               state = true
+               playerTurn = "two"
+               gameDirection = `${player2.name} please pick a number `
+                directionElement.textContent = gameDirection
+            }
+            if (choice >= 7 && choice <= 9){
+                bottomRow[choice - 7] = player2.symbol;
+                selectedNumbers.push(input)
+                let para3 = document.createElement("h1");
+                para3 = bottomRow.toString()
+                gameboardElement3.textContent = para3
+                console.log(input);
+                state = true
+                playerTurn = "two"
+                gameDirection = `${player2.name} please pick a number `
+                directionElement.textContent = gameDirection
+            }
+            playerTurn = "two"
+            console.log('BOW working');
+        return
+    } else {
+        
+    if (playerTurn === "one") {
         if (selectedNumbers.includes(input)) {
             gameDirection = `${player1.name} please pick a number that was not used before`
             directionElement.textContent = gameDirection
+            playerTurn = "one"
             
         } else {
             let choice = parseInt(input)
@@ -156,6 +204,7 @@ const tableChange = (input) => {
                 gameboardElement1.textContent = para
                 console.log(input);
                 state = false
+                playerTurn = "two"
                 gameDirection = `${player2.name} please pick a number `
                 
             }
@@ -167,6 +216,7 @@ const tableChange = (input) => {
                 gameboardElement2.textContent = para2
                 console.log(input);
                 state = false
+                playerTurn = "two"
                 gameDirection = `${player2.name} please pick a number `
             }
             if (choice >= 7 && choice <= 9){
@@ -177,16 +227,21 @@ const tableChange = (input) => {
                 gameboardElement3.textContent = para3
                 console.log(input);
                 state = false
+                playerTurn = "two"
                 gameDirection = `${player2.name} please pick a number `
             }
+            console.log('BOW working');
             
+            return
         }
         
     } 
-     if (state === false) {
+     if (playerTurn === "two") {
         if (selectedNumbers.includes(input)) {
             gameDirection = `${player2.name} please pick a number that was not used before`
             directionElement.textContent = gameDirection
+            console.log(input);
+            playerTurn = "two"
             
         } else {
             console.log("bow bow");
@@ -199,6 +254,7 @@ const tableChange = (input) => {
                 gameboardElement1.textContent = para
                 console.log(input);
                state = true
+               playerTurn = "one"
                gameDirection = `${player1.name} please pick a number `
                 directionElement.textContent = gameDirection
                 
@@ -211,6 +267,7 @@ const tableChange = (input) => {
                 gameboardElement2.textContent = para2
                 console.log(input);
                state = true
+               playerTurn = "one"
                gameDirection = `${player1.name} please pick a number `
                 directionElement.textContent = gameDirection
             }
@@ -222,14 +279,17 @@ const tableChange = (input) => {
                 gameboardElement3.textContent = para3
                 console.log(input);
                 state = true
+                playerTurn = "one"
                 gameDirection = `${player1.name} please pick a number `
                 directionElement.textContent = gameDirection
             }
         }
-        
+       // playerTurn = "one"
+        console.log('BOW working');
+        return
     }
 
-
+    }
 }
 
 
