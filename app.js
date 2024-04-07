@@ -15,12 +15,13 @@ let turn = 0;
 const digits = ['1','2','3','4','5','6','7','8','9']
 let state = true
 
-const topRow = [1, 2, 3]
-const midRow = [4, 5, 6]
-const bottomRow = [7, 8, 9]
+let topRow = [1, 2, 3]
+let midRow = [4, 5, 6]
+let bottomRow = [7, 8, 9]
 const xsOrOs = ['X', 'x', 'O', 'o']
-const selectedNumbers = []
+let selectedNumbers = []
 let playerTurn= ""
+let gameturns = 0
 
 
 
@@ -67,13 +68,16 @@ const inputCheck = (input) => {
         gameDirection = `Player 1's name is ${player1.name}`;
         //console.log(gameDirection);
         directionElement.textContent = gameDirection
+        choiceInput.value= ""
         
         inputCount += 1
     }else if ( input.length > 1 && inputCount < 2){
         player2.name = input
         gameDirection = `Player 2's name is ${player2.name} , now ${player1.name} what symbol do you want?`;
         directionElement.textContent = gameDirection
+        choiceInput.value= ""
         inputCount += 1
+        
     }
     if (input.length < 2) {
         
@@ -86,6 +90,7 @@ const inputCheck = (input) => {
         gameDirection = `${player1.name} 's symbol is ${player1.symbol} , and ${player2.name} is ${player2.symbol}, once you're ready click the "Start battle button"`
         directionElement.textContent = gameDirection
         inputCount += 1
+        choiceInput.value= ""
         } 
         else if (input ==="O"|| input ==="o"){
         player1.symbol = "O"
@@ -93,6 +98,7 @@ const inputCheck = (input) => {
         gameDirection = `${player1.name} 's symbol is ${player1.symbol} , and ${player2.name} is ${player2.symbol}, once you're ready click the "Start battle button"`
         directionElement.textContent = gameDirection
         inputCount += 1
+        choiceInput.value= ""
         }
          // changes the state to true so the second part of submit event listener can start
         //console.log(state);//
@@ -100,7 +106,7 @@ const inputCheck = (input) => {
     
 }
 
-const ticBattle = () => {
+const ticBattle = () => {  //this goees first and starts the tic tac toe game 
     
     // console.log(state);
     // if (state === null){
@@ -108,7 +114,8 @@ const ticBattle = () => {
         gameDirection = `${player1.name} has started the game, please pick your first spot on the board `
         directionElement.textContent = gameDirection
         console.log(state);
-        playerTurn = "two"
+        playerTurn = "one"  // this changes the turn variable so player 2 goes next in the next function
+        choiceInput.value= ""
         return
         
         
@@ -137,10 +144,13 @@ const ticBattle = () => {
     
     
 }
-const tableChange = (input) => {
+const tableChange = (input) => {  // this is the game logic function, each player takes a turn and puts their symbol 
     console.log('BOW working');
     console.log(state);
-    if (playerTurn === "") {
+    
+        
+    
+    if (playerTurn === "") {  // this is a default option to always start with player one in case the start battle function  didn't work
         
         gameDirection =`${player1.name} please pick your  spot on the board`
         directionElement.textContent = gameDirection
@@ -155,8 +165,8 @@ const tableChange = (input) => {
                 console.log(input);
                state = true
                playerTurn = "two"
-               gameDirection = `${player2.name} please pick a number `
-                directionElement.textContent = gameDirection
+            //    gameDirection = `${player2.name} please pick a number `
+            // directionElement.textContent = gameDirection
                 
             }
             if (choice >= 4 && choice <= 6){
@@ -168,8 +178,8 @@ const tableChange = (input) => {
                 console.log(input);
                state = true
                playerTurn = "two"
-               gameDirection = `${player2.name} please pick a number `
-                directionElement.textContent = gameDirection
+            //    gameDirection = `${player2.name} please pick a number `
+            //     directionElement.textContent = gameDirection
             }
             if (choice >= 7 && choice <= 9){
                 bottomRow[choice - 7] = player2.symbol;
@@ -180,13 +190,18 @@ const tableChange = (input) => {
                 console.log(input);
                 state = true
                 playerTurn = "two"
-                gameDirection = `${player2.name} please pick a number `
-                directionElement.textContent = gameDirection
+                // gameDirection = `${player2.name} please pick a number `
+                // directionElement.textContent = gameDirection
             }
+            
+            gameDirection = `${player2.name} please pick a number `
+            directionElement.textContent = gameDirection
             playerTurn = "two"
-            console.log('BOW working');
-        return
-    } else {
+            choiceInput.value= ""
+            console.log('BOW working default');  
+            winCheck()
+        return  // if I remove this then goes stright to line 195 
+    } else   // if the player turn gets changed to "one" or "two" run this else condition 
         
     if (playerTurn === "one") {
         if (selectedNumbers.includes(input)) {
@@ -230,13 +245,17 @@ const tableChange = (input) => {
                 playerTurn = "two"
                 gameDirection = `${player2.name} please pick a number `
             }
-            console.log('BOW working');
-            
+            console.log('BOW working player 1');
+            choiceInput.value= ""
+            gameDirection = `${player2.name} please pick a number `
+            directionElement.textContent = gameDirection
+            winCheck()
             return
+            
         }
-        
+        //winCheck()
     } 
-     if (playerTurn === "two") {
+    else if (playerTurn === "two") {
         if (selectedNumbers.includes(input)) {
             gameDirection = `${player2.name} please pick a number that was not used before`
             directionElement.textContent = gameDirection
@@ -244,7 +263,7 @@ const tableChange = (input) => {
             playerTurn = "two"
             
         } else {
-            console.log("bow bow");
+            
             let choice = parseInt(input)
             if (choice >= 1 && choice <=3){
                 topRow[choice - 1] = player2.symbol;
@@ -283,20 +302,102 @@ const tableChange = (input) => {
                 gameDirection = `${player1.name} please pick a number `
                 directionElement.textContent = gameDirection
             }
+            gameDirection = `${player1.name} please pick a number `
+            directionElement.textContent = gameDirection
+            choiceInput.value= ""
+            playerTurn = "one"
+            console.log('BOW working player 2');
+            winCheck()
+            
         }
        // playerTurn = "one"
-        console.log('BOW working');
+        
         return
+        //winCheck()
     }
+    
+  
+}
 
-    }
+const winCheck = () => { 
+
+    if (
+        (topRow[0]=== player1.symbol && topRow[1]=== player1.symbol && topRow[2]=== player1.symbol)  // check for 3 in a row for first row
+        ||
+        (midRow[0]=== player1.symbol && midRow[1]=== player1.symbol && midRow[2]=== player1.symbol)  //  check for 3 in a row for 2nd row
+        ||
+        (bottomRow[0]=== player1.symbol && bottomRow[1]=== player1.symbol && bottomRow[2]=== player1.symbol)  // check for 3 in a row for 3rd row
+        || 
+        (topRow[0]=== player1.symbol && midRow[0]=== player1.symbol && bottomRow[0]=== player1.symbol)//check left column
+        ||
+        (topRow[1]=== player1.symbol && midRow[1]=== player1.symbol && bottomRow[1]=== player1.symbol)//check middle column
+        ||
+        (topRow[2]=== player1.symbol && midRow[2]=== player1.symbol && bottomRow[2]=== player1.symbol)//check right column
+        ||
+        (bottomRow[0]=== player1.symbol && midRow[1]=== player1.symbol && topRow[2]=== player1.symbol)// check diag left to right from the bottom
+        ||
+        (topRow[0]=== player1.symbol && midRow[1]=== player1.symbol && bottomRow[2]=== player1.symbol)//check diag left to right from the top
+        ) { 
+            gameDirection = `${player1.name} (${player1.symbol}) is the winner. ` 
+            directionElement.textContent = gameDirection
+            state = true
+            inputVal = ""
+            inputCount = 0
+            selectedNumbers = []
+            topRow = [1, 2, 3]
+            midRow = [4, 5, 6]
+            bottomRow = [7, 8, 9]
+            return
+    } else if (
+        (topRow[0]=== player2.symbol && topRow[1]=== player2.symbol && topRow[2]=== player2.symbol)  // check for 3 in a row for first row
+        ||
+        (midRow[0]=== player2.symbol && midRow[1]=== player2.symbol && midRow[2]=== player2.symbol)  //  check for 3 in a row for 2nd row
+        ||
+        (bottomRow[0]=== player2.symbol && bottomRow[1]=== player2.symbol && bottomRow[2]=== player2.symbol)  // check for 3 in a row for 3rd row
+        || 
+        (topRow[0]=== player2.symbol && midRow[0]=== player2.symbol && bottomRow[0]=== player2.symbol)//check left column
+        ||
+        (topRow[1]=== player2.symbol && midRow[1]=== player2.symbol && bottomRow[1]=== player2.symbol)//check middle column
+        ||
+        (topRow[2]=== player2.symbol && midRow[2]=== player2.symbol && bottomRow[2]=== player2.symbol)//check right column
+        ||
+        (bottomRow[0]=== player2.symbol && midRow[1]=== player2.symbol && topRow[2]=== player2.symbol)// check diag left to right from the bottom
+        ||
+        (topRow[0]=== player2.symbol && midRow[1]=== player2.symbol && bottomRow[2]=== player2.symbol)//check diag left to right from the top
+        ) {
+            gameDirection = `${player2.name} (${player2.symbol}) is the winner. ` 
+            directionElement.textContent = gameDirection
+            state = true
+            inputCount = 0
+            inputVal = ""
+            selectedNumbers = []
+            topRow = [1, 2, 3]
+            midRow = [4, 5, 6]
+            bottomRow = [7, 8, 9]
+            return
+    } else if (selectedNumbers.length === 9) {
+        gameDirection = "Looks like there wasn't a winner." 
+        directionElement.textContent = gameDirection
+        state = true
+        inputCount = 0
+        inputVal = ""
+        selectedNumbers = []
+        topRow = [1, 2, 3]
+        midRow = [4, 5, 6]
+        bottomRow = [7, 8, 9]
+        return
+
+    } 
+
+
+
 }
 
 
 /**------------------------------------------------------Event Listeners/calls-------------------------------------- */
 
 
-gameButtonElement.addEventListener('click', () =>{  
+gameButtonElement.addEventListener('click', () =>{   // event listener for player info (start game)
     while(gameboardElement1.firstChild &&  gameboardElement2.firstChild && gameboardElement3.firstChild) { 
         gameboardElement1.removeChild(gameboardElement1.firstChild);  //This loop clears the gameboard before starting
         gameboardElement2.removeChild(gameboardElement2.firstChild);  //This loop clears the gameboard before starting
@@ -312,10 +413,7 @@ gameButtonElement.addEventListener('click', () =>{
      const para3 = document.createElement("h1");
     const para4 = document.createElement ('h2')
     gameDirection ="Please enter the name of Player 1 in the input box, then player 2's name after submitting"
-    if (player1.name === "") {
-
-    }
-
+    
 
 
     para.textContent = textMaker1 
@@ -337,7 +435,7 @@ gameButtonElement.addEventListener('click', () =>{
 
 
 
-direcButtonElement.addEventListener('click', () =>{  
+direcButtonElement.addEventListener('click', () =>{    // button to display game directions
     while(gameboardElement1.firstChild &&  gameboardElement2.firstChild && gameboardElement3.firstChild) { 
         gameboardElement1.removeChild(gameboardElement1.firstChild);  //This loop clears the gameboard before starting
         gameboardElement2.removeChild(gameboardElement2.firstChild);  //This loop clears the gameboard before starting
@@ -358,7 +456,7 @@ direcButtonElement.addEventListener('click', () =>{
 
 
 
-submitButton.addEventListener('click', () =>{ 
+submitButton.addEventListener('click', () =>{ // submit button listener 
     // console.log(choiceInput.value); 
     
     if(choiceInput.value != "" ){
@@ -374,7 +472,7 @@ submitButton.addEventListener('click', () =>{
     
 })
 
-battleButton.addEventListener('click', () =>{ 
+battleButton.addEventListener('click', () =>{   // start game logic battle
     // when battle button is pressed run ticBattle AND tableChange
     // console.log("The click works ");
     ticBattle() 
@@ -382,9 +480,9 @@ battleButton.addEventListener('click', () =>{
     
 })     
     
-continueButton.addEventListener('click', () =>{ 
+// continueButton.addEventListener('click', () =>{ // place holder button for game logic 
     
-    // console.log("The click works ");
-    tableChange()
+//     // console.log("The click works ");
+//     tableChange()
     
-})    
+// })    
