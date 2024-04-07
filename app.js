@@ -49,24 +49,14 @@ const choiceInput = document.querySelector('.textInput')
 const battleButton = document.querySelector(".battle")
 const continueButton = document.querySelector(".continue")
 /**---------------------------------FUNCTIONS------------------------------------------- */
-// const userCall = (name) => {  // creating a function for asking the name of the players 
-    
-   
 
-//     player1.name =  name // create variable for player 1 from user prompt
-//     gameDirection = `Player 1's name is ${player1.name}`;
-
-//     player2.name = prompt('What is your name Player 2? ');  // create variable for player 2 prompt 
-//     console.log(`Player 2's name is ${player2.name}`);
-
-// }
 
 const inputCheck = (input) => {
-    //console.log(input); // checks the function input
+    
     if (input.length > 1 && inputCount < 1) {
         player1.name = input
         gameDirection = `Player 1's name is ${player1.name}`;
-        //console.log(gameDirection);
+        
         directionElement.textContent = gameDirection
         choiceInput.value= ""
         
@@ -86,7 +76,7 @@ const inputCheck = (input) => {
         player1.symbol = "X"
         player2.symbol = "O"
         
-        // console.log(player1.symbol);
+        
         gameDirection = `${player1.name} 's symbol is ${player1.symbol} , and ${player2.name} is ${player2.symbol}, once you're ready click the "Start battle button"`
         directionElement.textContent = gameDirection
         inputCount += 1
@@ -100,16 +90,14 @@ const inputCheck = (input) => {
         inputCount += 1
         choiceInput.value= ""
         }
-         // changes the state to true so the second part of submit event listener can start
-        //console.log(state);//
+         
     } 
     
 }
 
 const ticBattle = () => {  //this goees first and starts the tic tac toe game 
     
-    // console.log(state);
-    // if (state === null){
+    
         console.log("This is working ");
         gameDirection = `${player1.name} has started the game, please pick your first spot on the board `
         directionElement.textContent = gameDirection
@@ -120,25 +108,7 @@ const ticBattle = () => {  //this goees first and starts the tic tac toe game
         
         
          
-//     } else if (state != null){
-//         if (state = false )
-//         {
-//         console.log("THis gets skipped");
-//         gameDirection =`${player2.name} please pick your  spot on the board`
-//         directionElement.textContent = gameDirection
-//         state = true
-      
-//         } 
-    
-//         if (state === true ){
-//         console.log(state);
-//         console.log("This is not working ");
-//         gameDirection =`${player1.name} please pick your  spot on the board`
-//         directionElement.textContent = gameDirection
-//         state= false
 
-//         } 
-// }
 
    
     
@@ -165,8 +135,7 @@ const tableChange = (input) => {  // this is the game logic function, each playe
                 console.log(input);
                state = true
                playerTurn = "two"
-            //    gameDirection = `${player2.name} please pick a number `
-            // directionElement.textContent = gameDirection
+            
                 
             }
             if (choice >= 4 && choice <= 6){
@@ -178,8 +147,7 @@ const tableChange = (input) => {  // this is the game logic function, each playe
                 console.log(input);
                state = true
                playerTurn = "two"
-            //    gameDirection = `${player2.name} please pick a number `
-            //     directionElement.textContent = gameDirection
+            
             }
             if (choice >= 7 && choice <= 9){
                 bottomRow[choice - 7] = player2.symbol;
@@ -190,8 +158,7 @@ const tableChange = (input) => {  // this is the game logic function, each playe
                 console.log(input);
                 state = true
                 playerTurn = "two"
-                // gameDirection = `${player2.name} please pick a number `
-                // directionElement.textContent = gameDirection
+                
             }
             
             gameDirection = `${player2.name} please pick a number `
@@ -253,7 +220,7 @@ const tableChange = (input) => {  // this is the game logic function, each playe
             return
             
         }
-        //winCheck()
+        
     } 
     else if (playerTurn === "two") {
         if (selectedNumbers.includes(input)) {
@@ -310,10 +277,10 @@ const tableChange = (input) => {  // this is the game logic function, each playe
             winCheck()
             
         }
-       // playerTurn = "one"
+       
         
         return
-        //winCheck()
+        
     }
     
   
@@ -447,7 +414,7 @@ direcButtonElement.addEventListener('click', () =>{    // button to display game
     }
     const para = document.createElement("p");
    
-    // gameboardElement.removeChild()
+    
     para.textContent = 'The object of tic tac toe is to get three in a row vertically horizontally or diagonally. You will face your computer and play turn for turn. Each player will be asked for their desired symbol. First player to get three in a row wins! Rules are simple, the fun is the strategy!'
     
     directionElement.appendChild(para);
@@ -457,7 +424,7 @@ direcButtonElement.addEventListener('click', () =>{    // button to display game
 
 
 submitButton.addEventListener('click', () =>{ // submit button listener 
-    // console.log(choiceInput.value); 
+    
     
     if(choiceInput.value != "" ){
         inputCheck(choiceInput.value)
@@ -466,23 +433,16 @@ submitButton.addEventListener('click', () =>{ // submit button listener
     
     if (digits.includes(choiceInput.value)) {
         tableChange(choiceInput.value)
-        // console.log(choiceInput.value);
+        
     }
     
     
 })
 
 battleButton.addEventListener('click', () =>{   // start game logic battle
-    // when battle button is pressed run ticBattle AND tableChange
-    // console.log("The click works ");
+    
     ticBattle() 
    
     
 })     
     
-// continueButton.addEventListener('click', () =>{ // place holder button for game logic 
-    
-//     // console.log("The click works ");
-//     tableChange()
-    
-// })    
